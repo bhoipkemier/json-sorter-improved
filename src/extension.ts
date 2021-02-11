@@ -4,7 +4,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('json-sorter-imporved.sort', () => {
 		const editor = vscode?.window?.activeTextEditor;
 		const text = editor?.document?.getText();
-		if(text === undefined){
+		if (text === undefined) {
 			error('Could not retrieve JSON to sort!');
 			return;
 		}
@@ -19,38 +19,43 @@ export function activate(context: vscode.ExtensionContext) {
 				lastLine.range.end.character
 			);
 			const sortedText = getSortedJson(text);
-			editorBuilder.replace(selection, sortedText);
-			vscode.window.showInformationMessage('Your JSON code has been sorted!');
+			if (!!sortedText) {
+				editorBuilder.replace(selection, sortedText);
+				vscode.window.showInformationMessage('Your JSON code has been sorted!');
+			}
 		});
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-function error(message : string) {
+function error(message: string) {
 	vscode.window.showErrorMessage(message);
 }
 
-function getSortedJson(text: string): string {
+function getSortedJson(text: string): string | undefined {
 	let json: any;
-	try{
+	try {
 		json = JSON.parse(text);
-	}catch{
+	} catch {
 		error('Document does not contain valid JSON!');
-		return text;
+		return undefined;
 	}
-	return JSON.stringify(sort(json), undefined, 4);
+	const numSpaces = vscode.workspace.getConfiguration("jsonSorterImproved")["numberOfSpaces"];
+	return JSON.stringify(sort(json), undefined, numSpaces <= 0 ? '\t' : +numSpaces);
 }
 
 function sort(json: any): any {
 	if (json instanceof Array) {
 		return json;
 	}
-	
+
 	if (typeof json === 'object' && Object.keys(json).length > 0) {
-		return Object.keys(json)
-		.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1)
-		.reduce((prev, key) => {
+		let isCaseSensitive = vscode.workspace.getConfiguration("jsonSorterImproved")["caseSensitive"];
+		isCaseSensitive = isCaseSensitive === true || isCaseSensitive === "true";
+		let keys = Object.keys(json);
+		keys = isCaseSensitive ? keys.sort() : keys.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
+		return keys.reduce((prev, key) => {
 			return { ...prev, [key]: sort(json[key]) };
 		}, {});
 	}
@@ -58,4 +63,4 @@ function sort(json: any): any {
 	return json;
 }
 
-export function deactivate() {}
+export function deactivate() { }

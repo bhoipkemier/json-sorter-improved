@@ -2,7 +2,12 @@
 	"name": "json-sorter-imporved",
 	"displayName": "json-sorter-imporved",
 	"description": "Sort the properties of your json file.",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bhoipkemier/json-sorter-improved"
+	},
+	"homepage": "https://github.com/bhoipkemier/json-sorter-improved/blob/main/README.md",
 	"engines": {
 		"vscode": "^1.53.0"
 	},
@@ -14,6 +19,22 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration":{
+			"type": "object",
+			"title": "JSON Sorter Improved Configuration",
+			"properties": {
+				"jsonSorterImproved.numberOfSpaces": {
+					"type": "number",
+					"default": "2",
+					"description": "The number of spaces to use for indentation.  Enter '0' to use tabs instead."
+				},
+				"jsonSorterImproved.caseSensitive": {
+					"type": "boolean",
+					"default": false,
+					"description": "Should the case of the properties be considered when sorting the text."
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "json-sorter-imporved.sort",
