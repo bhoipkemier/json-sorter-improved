@@ -1,8 +1,8 @@
 {
-	"name": "json-sorter-imporved",
-	"displayName": "json-sorter-imporved",
+	"name": "json-sorter-improved",
+	"displayName": "JSON Sorter Improved",
 	"description": "Sort the properties of your json file.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/bhoipkemier/json-sorter-improved"
@@ -16,7 +16,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:json-sorter-imporved.sort"
+		"onCommand:json-sorter-improved.sort"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -38,7 +38,7 @@
 		},
 		"commands": [
 			{
-				"command": "json-sorter-imporved.sort",
+				"command": "json-sorter-improved.sort",
 				"title": "Json Sorter Improved"
 			}
 		]

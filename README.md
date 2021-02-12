@@ -1,4 +1,4 @@
-# json-sorter-imporved README
+# json-sorter-improved README
 
 JSON Sorter Improved will sort the properties of your json files.
 
